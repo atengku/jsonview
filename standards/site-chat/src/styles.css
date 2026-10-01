@@ -1,0 +1,397 @@
+/*
+ * Standard chat surface styles.
+ *
+ * Import once, in the same layout that renders <SiteChat />:
+ *   import "@atengku/site-chat/styles.css";
+ *
+ * Sites do not fork this file. Per-site variation happens through the two
+ * custom properties the component sets from `brand` (--sc-accent and
+ * --sc-accent-foreground) plus the tokens below, which a site may override in
+ * its own stylesheet if it must:
+ *
+ *   .sc-root { --sc-radius: 8px; --sc-font: "Inter", sans-serif; }
+ */
+
+.sc-root {
+  --sc-accent: #111827;
+  --sc-accent-foreground: #ffffff;
+  --sc-surface: #ffffff;
+  --sc-surface-raised: #f5f6f8;
+  --sc-text: #10131a;
+  --sc-text-muted: #5b6472;
+  --sc-border: rgba(16, 19, 26, 0.12);
+  --sc-shadow: 0 18px 48px rgba(16, 19, 26, 0.18);
+  --sc-radius: 16px;
+  --sc-radius-sm: 12px;
+  --sc-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --sc-z: 2147483000;
+
+  position: fixed;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  z-index: var(--sc-z);
+  font-family: var(--sc-font);
+  color: var(--sc-text);
+  line-height: 1.5;
+}
+
+.sc-bottom-right {
+  right: max(20px, env(safe-area-inset-right));
+}
+
+.sc-bottom-left {
+  left: max(20px, env(safe-area-inset-left));
+}
+
+@media (prefers-color-scheme: dark) {
+  .sc-root {
+    --sc-surface: #12151b;
+    --sc-surface-raised: #1b1f27;
+    --sc-text: #e9ecf1;
+    --sc-text-muted: #9aa3b2;
+    --sc-border: rgba(233, 236, 241, 0.14);
+    --sc-shadow: 0 18px 48px rgba(0, 0, 0, 0.55);
+  }
+}
+
+.sc-root *,
+.sc-root *::before,
+.sc-root *::after {
+  box-sizing: border-box;
+}
+
+.sc-root svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- launcher ---------- */
+
+.sc-launcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px 12px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--sc-accent);
+  color: var(--sc-accent-foreground);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--sc-shadow);
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.sc-launcher:hover {
+  transform: translateY(-1px);
+}
+
+.sc-launcher-icon {
+  display: inline-flex;
+  width: 24px;
+  height: 24px;
+}
+
+.sc-launcher-icon img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* ---------- panel ---------- */
+
+.sc-panel {
+  display: flex;
+  flex-direction: column;
+  width: min(400px, calc(100vw - 40px));
+  height: min(600px, calc(100vh - 120px));
+  background: var(--sc-surface);
+  border: 1px solid var(--sc-border);
+  border-radius: var(--sc-radius);
+  box-shadow: var(--sc-shadow);
+  overflow: hidden;
+}
+
+.sc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 14px 14px 16px;
+  border-bottom: 1px solid var(--sc-border);
+}
+
+.sc-identity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+/* Named rather than `.sc-identity > span`, which also matched the avatar
+   fallback span and beat its own display rule on specificity. */
+.sc-identity-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.sc-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex: none;
+}
+
+.sc-avatar-fallback {
+  display: grid;
+  place-items: center;
+  background: var(--sc-accent);
+  color: var(--sc-accent-foreground);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.sc-name {
+  font-weight: 650;
+  font-size: 15px;
+}
+
+.sc-status {
+  font-size: 12px;
+  color: var(--sc-text-muted);
+}
+
+.sc-status[data-status="error"] {
+  color: #c0392b;
+}
+
+.sc-icon-button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--sc-radius-sm);
+  background: transparent;
+  color: var(--sc-text-muted);
+  cursor: pointer;
+}
+
+.sc-icon-button:hover {
+  background: var(--sc-surface-raised);
+  color: var(--sc-text);
+}
+
+.sc-icon-button[aria-pressed="true"] {
+  background: var(--sc-accent);
+  color: var(--sc-accent-foreground);
+}
+
+/* ---------- transcript ---------- */
+
+.sc-log {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sc-empty {
+  margin: auto 0;
+  text-align: center;
+  color: var(--sc-text-muted);
+  font-size: 14px;
+}
+
+.sc-message {
+  display: flex;
+}
+
+.sc-message.sc-user {
+  justify-content: flex-end;
+}
+
+.sc-bubble {
+  max-width: 84%;
+  padding: 10px 13px;
+  border-radius: var(--sc-radius-sm);
+  font-size: 14.5px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.sc-agent .sc-bubble {
+  background: var(--sc-surface-raised);
+  border-bottom-left-radius: 4px;
+}
+
+.sc-user .sc-bubble {
+  background: var(--sc-accent);
+  color: var(--sc-accent-foreground);
+  border-bottom-right-radius: 4px;
+}
+
+.sc-typing {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.sc-typing i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--sc-text-muted);
+  animation: sc-blink 1.2s infinite ease-in-out;
+}
+
+.sc-typing i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.sc-typing i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes sc-blink {
+  0%,
+  80%,
+  100% {
+    opacity: 0.25;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+.sc-error {
+  margin: 0;
+  padding: 10px 16px;
+  background: rgba(192, 57, 43, 0.1);
+  color: #c0392b;
+  font-size: 13px;
+}
+
+/* ---------- composer ---------- */
+
+.sc-composer {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid var(--sc-border);
+}
+
+.sc-input {
+  flex: 1;
+  max-height: 120px;
+  padding: 10px 12px;
+  border: 1px solid var(--sc-border);
+  border-radius: var(--sc-radius-sm);
+  background: var(--sc-surface);
+  color: inherit;
+  font: inherit;
+  font-size: 14.5px;
+  resize: none;
+}
+
+.sc-input:focus-visible,
+.sc-launcher:focus-visible,
+.sc-icon-button:focus-visible,
+.sc-send:focus-visible {
+  outline: 2px solid var(--sc-accent);
+  outline-offset: 2px;
+}
+
+.sc-input:disabled {
+  opacity: 0.6;
+}
+
+.sc-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sc-send {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: var(--sc-radius-sm);
+  background: var(--sc-accent);
+  color: var(--sc-accent-foreground);
+  cursor: pointer;
+}
+
+.sc-send:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.sc-disclosure {
+  margin: 0;
+  padding: 0 14px 12px;
+  font-size: 11.5px;
+  color: var(--sc-text-muted);
+}
+
+.sc-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- responsive + motion ---------- */
+
+@media (max-width: 520px) {
+  .sc-root {
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .sc-panel {
+    width: 100vw;
+    height: 100dvh;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .sc-launcher {
+    position: absolute;
+    right: 16px;
+    bottom: max(16px, env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sc-root *,
+  .sc-root *::before,
+  .sc-root *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

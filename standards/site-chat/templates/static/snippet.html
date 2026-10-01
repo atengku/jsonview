@@ -1,0 +1,22 @@
+<!--
+  Fallback for non-React sites. Prefer the React component when you can.
+
+  This still calls the site's own /api/site-chat/session endpoint, so the agent
+  stays locked to our domains and no API key is ever shipped to the browser.
+-->
+<script type="module">
+  import { defineSiteChat } from "https://esm.sh/@atengku/site-chat";
+  import { mountSiteChat } from "https://esm.sh/@atengku/site-chat/embed";
+
+  const config = defineSiteChat({
+    site: "example",
+    agentId: "agent_replace_me",
+    mode: "text-first",
+    auth: "signed",
+    brand: { name: "Example Assistant", accent: "#111827" },
+  });
+
+  mountSiteChat(config).catch((error) => {
+    console.error("[site-chat] failed to mount", error);
+  });
+</script>
