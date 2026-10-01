@@ -158,7 +158,14 @@ export default tseslint.config(
       "@typescript-eslint/unified-signatures": "error",
       "@typescript-eslint/no-base-to-string": "error",
       "@typescript-eslint/non-nullable-type-assertion-style": "error",
-      "@typescript-eslint/switch-exhaustiveness-check": "error",
+      // `valueToHTML` switches on `typeof` and ends in a `default`, which
+      // handles bigint/symbol/undefined/function at runtime. Without this
+      // option the rule ignores the default for union types and reports the
+      // switch as non-exhaustive.
+      "@typescript-eslint/switch-exhaustiveness-check": [
+        "error",
+        { considerDefaultExhaustiveForUnions: true },
+      ],
       "@typescript-eslint/consistent-type-definitions": "error",
       "@typescript-eslint/consistent-generic-constructors": "error",
       "@typescript-eslint/no-duplicate-enum-values": "error",
